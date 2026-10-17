@@ -7,6 +7,7 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { ScreenshareIcon } from "@components/Icons";
+import { Paragraph } from "@components/Paragraph";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
@@ -134,6 +135,12 @@ export default definePlugin({
     tags: ["Voice", "Media"],
     authors: [Devs.Bellatorius],
     settings,
+
+    settingsAboutComponent: () => (
+        <Paragraph size="md">
+            Right click a stream, or the voice channel you're in, and click "Pop Out All Streams".
+        </Paragraph>
+    ),
 
     contextMenus: {
         "stream-context": streamContextPatch,
