@@ -205,6 +205,11 @@ const channelContextPatch: NavContextMenuPatchCallback = (children, { channel }:
     addPopoutAllStreamsItem(children, channel.id);
 };
 
+// Right clicking a DM in the DM list opens the user menu, which is also used everywhere else
+const userContextPatch: NavContextMenuPatchCallback = (children, props: { channel?: Channel; }) => {
+    if (props.channel?.isDM()) channelContextPatch(children, props);
+};
+
 let knownStreamKeys = new Set<string>();
 
 function onStreamsChange() {
@@ -236,7 +241,7 @@ export default definePlugin({
 
     settingsAboutComponent: () => (
         <Paragraph size="md">
-            Right click a stream, or the voice channel you're in, and click "Pop Out All Streams". Click a popout to switch its stream.
+            Right click a stream, or the voice channel, DM or group you're in a call in, and click "Pop Out All Streams". Click a popout to switch its stream.
         </Paragraph>
     ),
 
@@ -328,7 +333,9 @@ export default definePlugin({
 
     contextMenus: {
         "stream-context": streamContextPatch,
-        "channel-context": channelContextPatch
+        "channel-context": channelContextPatch,
+        "gdm-context": channelContextPatch,
+        "user-context": userContextPatch
     },
 
     start() {
